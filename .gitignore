@@ -1,0 +1,17 @@
+﻿node_modules/
+dist/
+apps/*/dist/
+packages/*/dist/
+.npm-cache/
+.env
+.env.local
+coverage/
+*.log
+*.pyc
+.tmp/
+services/rag-service/.venv/
+services/rag-service/**/__pycache__/
+services/rag-service/*.log
+services/ocr-service/.venv/
+services/ocr-service/**/__pycache__/
+services/ocr-service/*.log

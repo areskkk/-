@@ -1,0 +1,381 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>家助宝企业端 Apple 风格原型</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --page: #f5f5f7;
+        --surface: rgba(255, 255, 255, 0.76);
+        --text: #1d1d1f;
+        --muted: #6e7582;
+        --line: rgba(114, 119, 132, 0.2);
+        --primary: #0066cc;
+        --primary-strong: #004e9f;
+        --primary-soft: #e8f2ff;
+        --success: #34c759;
+        --warning: #ff9f0a;
+        --error: #ff3b30;
+        --shadow: 0 24px 70px rgba(15, 23, 42, 0.1);
+        font-family: "Hanken Grotesk", "PingFang SC", "Microsoft YaHei", sans-serif;
+        color: var(--text);
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background:
+          radial-gradient(circle at 0% 0%, rgba(232, 242, 255, 0.95), transparent 32%),
+          radial-gradient(circle at 100% 4%, rgba(255, 227, 214, 0.72), transparent 28%),
+          linear-gradient(180deg, #ffffff 0%, var(--page) 100%);
+      }
+      a { color: inherit; text-decoration: none; }
+      button, input, textarea, select { font: inherit; }
+      button { cursor: pointer; }
+      .landing { min-height: 100vh; padding: 24px; }
+      .landing-nav, .enterprise-top {
+        display: flex; align-items: center; justify-content: space-between; gap: 18px;
+        max-width: 1180px; margin: 0 auto; padding: 16px 18px;
+        border: 1px solid var(--line); border-radius: 24px; background: rgba(255,255,255,0.72);
+        box-shadow: 0 16px 50px rgba(15,23,42,0.06); backdrop-filter: blur(24px);
+      }
+      .brand { display: grid; gap: 2px; color: var(--primary-strong); font-weight: 800; }
+      .brand small { color: var(--muted); font-size: 12px; font-weight: 700; }
+      .landing-links { display: flex; flex-wrap: wrap; gap: 10px; color: #3f4653; font-weight: 700; }
+      .landing-links a { padding: 8px 12px; border-radius: 999px; }
+      .landing-links a:hover { background: var(--primary-soft); color: var(--primary-strong); }
+      .hero { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 42px; align-items: center; max-width: 1180px; min-height: calc(100vh - 120px); margin: 0 auto; }
+      .hero h1 { margin: 0; font-size: clamp(44px, 8vw, 82px); line-height: 0.98; letter-spacing: -0.05em; }
+      .hero p { max-width: 720px; color: #42526a; font-size: 20px; line-height: 1.8; }
+      .hero-actions, .actions, .row-actions, .hero-page-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+      .btn { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 0 18px; border: 1px solid transparent; border-radius: 999px; font-weight: 800; transition: .18s ease; }
+      .btn.primary { background: var(--primary); color: #fff; box-shadow: 0 14px 28px rgba(0,102,204,.2); }
+      .btn.primary:hover { background: var(--primary-strong); transform: translateY(-1px); }
+      .btn.ghost { border-color: var(--line); background: rgba(255,255,255,.68); color: #263143; }
+      .btn.ghost:hover { background: var(--primary-soft); color: var(--primary-strong); }
+      .btn.mini { min-height: 34px; padding: 0 12px; font-size: 13px; }
+      .glass, .card, .about-card {
+        border: 1px solid var(--line); border-radius: 28px; background: var(--surface);
+        box-shadow: var(--shadow); backdrop-filter: blur(26px);
+      }
+      .about-card { padding: 28px; }
+      .about-card h2, .card h2 { margin: 0 0 10px; }
+      .about-list { display: grid; gap: 12px; margin-top: 22px; }
+      .about-list span { display: flex; justify-content: space-between; gap: 12px; padding: 14px 16px; border-radius: 18px; background: rgba(245,245,247,.74); color: #3f4653; font-weight: 700; }
+      .app { display: none; min-height: 100vh; grid-template-columns: 260px minmax(0,1fr); }
+      .app.active { display: grid; }
+      .sidebar { position: sticky; top: 0; display: flex; flex-direction: column; justify-content: space-between; height: 100vh; padding: 24px; border-right: 1px solid var(--line); background: rgba(255,255,255,.62); backdrop-filter: blur(24px); }
+      .nav { display: grid; gap: 8px; margin-top: 30px; }
+      .nav a { display: flex; align-items: center; gap: 10px; padding: 13px 14px; border-radius: 16px; color: #3f4653; font-weight: 800; }
+      .nav a i { display: inline-grid; width: 28px; height: 28px; place-items: center; border-radius: 10px; background: rgba(255,255,255,.78); color: var(--primary-strong); font-style: normal; }
+      .nav a.active, .nav a:hover { background: var(--primary-soft); color: var(--primary-strong); }
+      .side-foot { display: grid; gap: 6px; padding: 16px; border-radius: 20px; background: rgba(255,255,255,.72); color: var(--muted); font-size: 13px; }
+      .side-foot strong { color: var(--text); font-size: 15px; }
+      .main { padding: 24px; }
+      .enterprise-top { max-width: none; margin-bottom: 22px; }
+      .top-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; color: #3f4653; font-weight: 700; }
+      .top-links a { padding: 8px 12px; border-radius: 999px; }
+      .top-links a:hover { background: var(--primary-soft); color: var(--primary-strong); }
+      .page { display: none; max-width: 1240px; margin: 0 auto 36px; }
+      .page.active { display: block; }
+      .page-hero { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; margin: 18px 0 22px; padding: 4px 2px; }
+      .kicker { color: var(--primary-strong); font-size: 12px; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; }
+      .page-hero h1 { margin: 8px 0 8px; font-size: clamp(34px, 5vw, 56px); line-height: 1.05; letter-spacing: -0.04em; }
+      .page-hero p { margin: 0; color: #42526a; font-size: 17px; line-height: 1.65; }
+      .grid { display: grid; gap: 20px; }
+      .grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .grid.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .bento { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 20px; }
+      .card { padding: 24px; }
+      .wide { grid-column: span 8; } .side { grid-column: span 4; } .half { grid-column: span 6; }
+      .section-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+      .section-head h2 { margin: 0; }
+      .muted { color: var(--muted); }
+      .status { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; font-size: 12px; font-weight: 900; white-space: nowrap; }
+      .status.ok, .status.approved { background: rgba(52,199,89,.12); color: #187a34; }
+      .status.warn, .status.need_supplement { background: rgba(255,159,10,.14); color: #9a5b00; }
+      .status.blue, .status.reviewing, .status.submitted { background: rgba(0,102,204,.1); color: var(--primary-strong); }
+      .status.gray, .status.draft { background: rgba(114,119,132,.12); color: #414753; }
+      .progress { overflow: hidden; height: 10px; border-radius: 999px; background: rgba(0,102,204,.12); }
+      .progress span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg,var(--primary),var(--success)); }
+      .mini-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; }
+      .mini-stats div, .info-grid div, .metric, .status-card, .supplement-item { padding: 16px; border: 1px solid rgba(114,119,132,.14); border-radius: 18px; background: rgba(245,245,247,.68); }
+      .mini-stats span, .info-grid span, .metric span, .status-card span, .supplement-item span { display: block; color: var(--muted); font-size: 13px; }
+      .mini-stats strong, .info-grid strong, .metric strong { display: block; margin-top: 7px; font-size: 22px; }
+      .todo, .policy, .app-row, .history-item, .suggestion, .material-item { display: grid; gap: 6px; padding: 16px; border: 1px solid rgba(114,119,132,.14); border-radius: 18px; background: rgba(245,245,247,.62); }
+      .todo { grid-template-columns: minmax(0,1fr) auto; align-items: center; color: var(--text); }
+      .todo.warn { border-color: rgba(255,159,10,.28); background: rgba(255,159,10,.08); }
+      .policy { grid-template-columns: minmax(0,1fr) auto; align-items: center; margin-bottom: 12px; }
+      .metric-row { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 16px; }
+      .metric { min-height: 138px; }
+      .metric strong { font-size: 34px; }
+      .profile-layout, .qa-layout, .supplement-layout, .new-layout, .detail-layout { display: grid; gap: 20px; align-items: start; }
+      .profile-layout { grid-template-columns: 300px minmax(0,1fr); }
+      .anchor { position: sticky; top: 24px; }
+      .anchor nav { display: grid; gap: 8px; margin-top: 18px; }
+      .anchor nav a { padding: 12px 14px; border-radius: 14px; background: rgba(245,245,247,.76); color: #414753; font-weight: 800; }
+      .form-grid, .info-grid, .status-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 14px; }
+      .field { display: grid; gap: 8px; }
+      .field label { color: #3f4653; font-weight: 800; }
+      input, select, textarea { width: 100%; border: 1px solid var(--line); border-radius: 16px; background: rgba(245,245,247,.9); color: var(--text); outline: none; padding: 14px 16px; }
+      textarea { resize: vertical; min-height: 96px; }
+      .stepper { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 10px; margin-bottom: 22px; }
+      .step { display: grid; justify-items: center; gap: 8px; padding: 14px 8px; border-radius: 18px; background: rgba(245,245,247,.74); color: var(--muted); text-align: center; font-weight: 900; }
+      .step b { display: grid; width: 32px; height: 32px; place-items: center; border-radius: 50%; background: rgba(114,119,132,.14); }
+      .step.done, .step.active { color: var(--text); } .step.done b, .step.active b { background: var(--primary); color: #fff; }
+      .bind-shell { max-width: 760px; margin: 0 auto; }
+      .upload { position: relative; display: grid; min-height: 170px; place-items: center; align-content: center; gap: 8px; padding: 24px; border: 2px dashed rgba(0,102,204,.28); border-radius: 22px; background: rgba(232,242,255,.32); text-align: center; cursor: pointer; }
+      .upload input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+      .upload-icon { display: grid; width: 52px; height: 52px; place-items: center; border-radius: 50%; background: var(--primary); color: #fff; font-size: 26px; font-weight: 900; }
+      .file-preview { display: none; margin-top: 12px; padding: 14px; border-radius: 16px; background: rgba(52,199,89,.08); color: #187a34; font-weight: 800; }
+      .qa-layout { grid-template-columns: 260px minmax(0,1fr) 280px; }
+      .thread { display: grid; gap: 12px; max-height: 520px; overflow: auto; padding-right: 6px; }
+      .question { justify-self: end; max-width: 80%; padding: 14px 16px; border-radius: 18px 18px 4px 18px; background: var(--primary); color: #fff; }
+      .answer { max-width: 88%; padding: 16px; border-radius: 18px 18px 18px 4px; background: rgba(245,245,247,.9); line-height: 1.65; }
+      .answer-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-top: 12px; }
+      .answer-grid span { padding: 12px; border-radius: 14px; background: rgba(255,255,255,.74); color: #42526a; }
+      .chat-form { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 10px; margin-top: 16px; }
+      .quick { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+      .quick button, .filter button { border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.7); padding: 9px 13px; font-weight: 800; color: #414753; }
+      .quick button:hover, .filter button.active { background: var(--primary-soft); color: var(--primary-strong); }
+      .application-toolbar { display: grid; grid-template-columns: 340px minmax(0,1fr); gap: 16px; align-items: end; }
+      .filter { display: flex; flex-wrap: wrap; gap: 8px; }
+      .table-head, .app-row { display: grid; grid-template-columns: 1.15fr 1.4fr 130px 130px 170px; gap: 12px; align-items: center; }
+      .table-head { color: var(--muted); font-size: 12px; font-weight: 900; letter-spacing: .05em; text-transform: uppercase; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+      .app-row { margin-top: 10px; }
+      .row-actions { justify-content: flex-end; }
+      .new-layout { grid-template-columns: 300px minmax(0,1fr); }
+      .material-item { width: 100%; text-align: left; border-style: solid; }
+      .material-item.active { border-color: rgba(0,102,204,.34); background: var(--primary-soft); }
+      .ocr-row, .material-row { display: grid; grid-template-columns: 150px minmax(0,1fr) minmax(0,1fr) auto; gap: 12px; align-items: center; padding: 12px 0; border-top: 1px solid rgba(114,119,132,.12); }
+      .detail-layout, .supplement-layout { grid-template-columns: minmax(0,1fr) 360px; }
+      .audit, .supplement-alert { display: flex; justify-content: space-between; gap: 16px; padding: 20px; border: 1px solid rgba(255,159,10,.24); border-radius: 22px; background: rgba(255,159,10,.09); }
+      .grant { color: var(--primary-strong); font-size: 34px; font-weight: 900; }
+      .modal { position: fixed; inset: 0; z-index: 50; display: none; place-items: center; padding: 24px; background: rgba(29,29,31,.36); backdrop-filter: blur(12px); }
+      .modal.active { display: grid; }
+      .modal-card { display: grid; gap: 14px; width: min(460px,100%); padding: 32px; border-radius: 28px; background: rgba(255,255,255,.94); box-shadow: 0 24px 80px rgba(15,23,42,.2); text-align: center; }
+      @media (max-width: 1100px) {
+        .hero, .app, .profile-layout, .qa-layout, .supplement-layout, .new-layout, .detail-layout { grid-template-columns: 1fr; }
+        .app.active { display: block; }
+        .sidebar { position: static; height: auto; }
+        .wide, .side, .half { grid-column: span 12; }
+      }
+      @media (max-width: 760px) {
+        .landing { padding: 14px; }
+        .landing-nav, .enterprise-top, .page-hero { align-items: flex-start; flex-direction: column; }
+        .main { padding: 16px; }
+        .grid.two, .grid.three, .metric-row, .form-grid, .info-grid, .status-grid, .application-toolbar, .table-head, .app-row, .stepper, .answer-grid, .ocr-row, .material-row { grid-template-columns: 1fr; }
+        .table-head { display: none; }
+        .page-hero h1 { font-size: 34px; }
+      }
+    </style>
+  </head>
+  <body>
+    <section id="landing" class="landing">
+      <header class="landing-nav">
+        <a class="brand" href="#about"><span>家助宝 · CivicPortal</span><small>Enterprise Prototype</small></a>
+        <nav class="landing-links" aria-label="首页导航">
+          <a href="#about">About</a>
+          <a href="#prototype">原型入口</a>
+          <a href="https://github.com/areskkk/-.git">GitHub</a>
+        </nav>
+      </header>
+      <main class="hero">
+        <section>
+          <span class="kicker">Apple 风格企业公共门户</span>
+          <h1>八页企业端原型，可直接交互展示。</h1>
+          <p>围绕企业绑定、画像维护、政策问答、申报办理、详情追踪和补正处理，搭建完整可点击的政企服务闭环。</p>
+          <div class="hero-actions">
+            <button class="btn primary" data-open-prototype>打开企业端原型</button>
+            <a class="btn ghost" href="#about">查看 About</a>
+          </div>
+        </section>
+        <aside id="about" class="about-card">
+          <span class="kicker">About</span>
+          <h2>家助宝企业端原型</h2>
+          <p class="muted">本页面是无需后端即可运行的静态展示版，适合通过 GitHub Pages 分享给团队或评审。</p>
+          <div class="about-list">
+            <span>页面数量 <b>8 页</b></span>
+            <span>核心交互 <b>跳转 / 筛选 / 上传 / 聊天 / 弹窗</b></span>
+            <span>视觉风格 <b>Apple-like / Glassmorphism</b></span>
+          </div>
+          <div class="hero-actions" style="margin-top: 22px;"><button class="btn primary" data-open-prototype>打开企业端原型</button></div>
+        </aside>
+      </main>
+    </section>
+
+    <section id="prototype" class="app" aria-label="企业端原型">
+      <aside class="sidebar">
+        <div>
+          <a class="brand" href="#dashboard" data-page-link="dashboard"><span>CivicPortal</span><small>Enterprise Console</small></a>
+          <nav class="nav" aria-label="企业端页面导航">
+            <a href="#dashboard" data-page-link="dashboard"><i>⌘</i>工作台</a>
+            <a href="#bind" data-page-link="bind"><i>◎</i>企业绑定</a>
+            <a href="#profile" data-page-link="profile"><i>◌</i>企业画像</a>
+            <a href="#qa" data-page-link="qa"><i>✦</i>政策问答</a>
+            <a href="#applications" data-page-link="applications"><i>▤</i>我的申报</a>
+            <a href="#new" data-page-link="new"><i>＋</i>新建申报</a>
+            <a href="#detail" data-page-link="detail"><i>□</i>申报详情</a>
+            <a href="#supplement" data-page-link="supplement"><i>!</i>补正处理</a>
+          </nav>
+        </div>
+        <div class="side-foot"><span>当前企业</span><strong>创领科技有限公司</strong><span>统一社会信用代码：91440300MA5EXXXX7Y</span><a href="#about">返回 About</a></div>
+      </aside>
+      <main class="main">
+        <header class="enterprise-top">
+          <a class="brand" href="#dashboard" data-page-link="dashboard"><span>CivicPortal Enterprise</span><small>创领科技有限公司</small></a>
+          <nav class="top-links">
+            <a href="#dashboard" data-page-link="dashboard">Dashboard</a>
+            <a href="#qa" data-page-link="qa">Enterprise Services</a>
+            <a href="#applications" data-page-link="applications">Applications</a>
+            <a href="#qa" data-page-link="qa">Support</a>
+          </nav>
+          <div class="hero-page-actions"><a class="btn ghost" href="#applications" data-page-link="applications">消息</a><a class="btn primary" href="#new" data-page-link="new">新建申报</a></div>
+        </header>
+
+        <section class="page" data-page="dashboard">
+          <div class="page-hero"><div><span class="kicker">Dashboard</span><h1>欢迎回来，创领科技有限公司</h1><p>集中查看企业画像、政策推荐、申报进度和待办事项。</p></div><div class="hero-page-actions"><a class="btn ghost" href="#applications" data-page-link="applications">我的申报</a><a class="btn primary" href="#qa" data-page-link="qa">政策咨询</a></div></div>
+          <div class="bento">
+            <article class="card wide"><div class="section-head"><div><span class="kicker">企业概览</span><h2>创领科技有限公司</h2></div><span class="status ok">信用评级 A+</span></div><p class="muted">统一社会信用代码：91440300MA5EXXXX7Y</p><strong>画像完整度 85%</strong><div class="progress"><span style="width:85%"></span></div><div class="mini-stats"><div><span>活跃申报</span><strong>12</strong></div><div><span>获得奖励金</span><strong>¥450k</strong></div><div><span>政策匹配</span><strong>3</strong></div></div></article>
+            <article class="card side"><span class="kicker">画像完善提醒</span><h2>补齐关键财务数据</h2><p class="muted">完善研发投入、纳税额等数据，可提升政策推荐准确率。</p><a class="btn primary" href="#profile" data-page-link="profile">立即完善</a></article>
+            <article class="card half"><div class="section-head"><h2>待办事项</h2><a href="#applications" data-page-link="applications">查看全部</a></div><a class="todo" href="#new" data-page-link="new"><div><strong>高新企业认定申请</strong><span class="muted">草稿待提交 · 建议今天完成材料上传</span></div><b>继续填写</b></a><a class="todo warn" href="#supplement" data-page-link="supplement"><div><strong>研发补贴材料补正</strong><span class="muted">需补正 · 2024-10-18 前处理</span></div><b>处理补正</b></a><a class="todo" href="#new" data-page-link="new"><div><strong>发票 OCR 自动识别确认</strong><span class="muted">系统发现 2 处字段差异</span></div><b>去确认</b></a></article>
+            <article class="card half"><div class="section-head"><h2>当前申报进度</h2><a href="#applications" data-page-link="applications">进入列表</a></div><div class="stepper" style="grid-template-columns:repeat(4,1fr)"><div class="step done"><b>1</b>Draft</div><div class="step done"><b>2</b>Submitted</div><div class="step active"><b>3</b>Reviewing</div><div class="step"><b>4</b>Final Decision</div></div><a class="app-row" href="#detail" data-page-link="detail"><span>demo-application-88421</span><strong>SME Digitalization Grant 2024</strong><span class="status warn">需补正</span><span>2024-10-12</span><span>查看详情</span></a></article>
+            <article class="card wide"><div class="section-head"><h2>智能推荐政策</h2><a href="#qa" data-page-link="qa">咨询政策助手</a></div><div class="policy"><div><span class="kicker">北京市经济和信息化局</span><strong>2024年度北京市研发费用加计扣除与专项奖励</strong><p class="muted">面向研发投入持续增长的软件与科技企业，提供资金补贴与税收优惠。</p></div><a class="btn primary" href="#new" data-page-link="new">开始申报</a></div><div class="policy"><div><span class="kicker">工业和信息化部</span><strong>中小企业数字化转型试点补助</strong><p class="muted">支持企业上线数字化系统、智能生产线和数据治理工具。</p></div><a class="btn primary" href="#new" data-page-link="new">开始申报</a></div></article>
+          </div>
+        </section>
+
+        <section class="page" data-page="bind">
+          <div class="page-hero"><div><span class="kicker">Enterprise Binding</span><h1>企业身份绑定</h1><p>完成企业认证，开启 CivicPortal Enterprise 高级管理功能。</p></div><a class="btn ghost" href="#dashboard" data-page-link="dashboard">Dashboard</a></div>
+          <div class="bind-shell card"><div class="stepper" style="grid-template-columns:repeat(3,1fr)"><div class="step done"><b>1</b>企业信息</div><div class="step done"><b>2</b>审核验证</div><div class="step active"><b>3</b>绑定完成</div></div><div class="form-grid"><div class="field"><label>企业全称</label><input value="创领科技有限公司"></div><div class="field"><label>统一社会信用代码</label><input value="91440300MA5EXXXX7Y"></div></div><label class="upload"><input id="bindUpload" type="file"><span class="upload-icon">↑</span><strong>营业执照扫描件</strong><em class="muted">拖拽或点击上传</em></label><div id="bindPreview" class="file-preview">文件已选择</div><p class="muted">预计审核时间：1-2 个工作日。我代表企业确认，上述信息准确无误。</p><div class="actions"><button class="btn primary" id="bindSubmit">提交绑定申请</button><a class="btn ghost" href="#dashboard" data-page-link="dashboard">进入企业工作台</a></div><div class="grid three" style="margin-top:20px"><div class="status-card"><strong>安全可靠</strong><span>加密传输与权限隔离</span></div><div class="status-card"><strong>极速处理</strong><span>自动 OCR 与风险预审</span></div><div class="status-card"><strong>专属支持</strong><span>政策专员协助办理</span></div></div></div>
+        </section>
+
+        <section class="page" data-page="profile">
+          <div class="page-hero"><div><span class="kicker">Edit Profile</span><h1>Enterprise Profile</h1><p>维护基础信息、经营数据、发展状态和扩展字段。</p></div><button class="btn primary" id="saveProfile">保存画像</button></div>
+          <div class="profile-layout"><aside class="card anchor"><strong>新维创想科技有限公司</strong><p class="muted">统一社会信用代码：91440300MA5EXXXX7Y</p><strong>画像完整度 85%</strong><div class="progress"><span style="width:85%"></span></div><nav><a href="#basic">基础信息</a><a href="#finance">经营数据</a><a href="#status">发展状态</a><a href="#extended">扩展字段</a></nav></aside><main class="grid"><section id="basic" class="card"><div class="section-head"><h2>基础信息</h2><span>Basic Information</span></div><div class="form-grid"><div class="field"><label>企业名称</label><input value="新维创想科技有限公司"></div><div class="field"><label>法定代表人</label><input value="李明"></div><div class="field"><label>注册资本</label><input value="1000 万元"></div><div class="field"><label>所属行业</label><input value="软件和信息技术服务业"></div></div></section><section id="finance" class="card"><div class="section-head"><h2>经营数据</h2><span>金额单位：万元</span></div><div class="form-grid"><div class="field"><label>年度营业收入</label><input value="4800"></div><div class="field"><label>净利润</label><input value="760"></div><div class="field"><label>纳税总额</label><input value="320"></div><div class="field"><label>研发投入占比</label><input value="12%"></div></div></section><section id="status" class="card"><div class="section-head"><h2>发展状态</h2><span>Qualification Status</span></div><div class="status-grid"><div class="status-card"><strong>高新技术企业认证</strong><span>已认证 · 2026 年到期</span></div><div class="status-card"><strong>专精特新“小巨人”企业</strong><span>材料准备中 · 建议补充专利数据</span></div></div></section><section id="extended" class="card"><div class="section-head"><h2>扩展字段</h2><button class="btn mini ghost" id="addField">添加自定义字段</button></div><div class="form-grid" id="customFields"><div class="field"><label>核心产品</label><input value="智能政务协同平台"></div><div class="field"><label>专利总数</label><input value="18"></div></div></section></main></div>
+        </section>
+
+        <section class="page" data-page="qa">
+          <div class="page-hero"><div><span class="kicker">Policy Assistant</span><h1>企业政策服务</h1><p>我是您的政策智能助手，帮您精准匹配并解读扶持条款。</p></div><a class="btn ghost" href="#dashboard" data-page-link="dashboard">Dashboard</a></div>
+          <div class="qa-layout"><aside class="card"><button class="btn primary" id="newChat">开启新会话</button><h2>最近对话</h2><button class="history-item" data-question="软件企业研发补贴"><strong>软件企业研发补贴</strong><span>北京市专项奖励</span></button><button class="history-item" data-question="高新技术企业认定"><strong>高新技术企业认定</strong><span>企业画像字段补齐</span></button></aside><main class="card"><div class="section-head"><h2>我是您的政策智能助手</h2><span class="status ok">Online</span></div><div id="thread" class="thread"><div class="question">请问2024年北京市针对软件企业的研发经费投入有具体的资金补助政策吗？</div><div class="answer"><strong>2024年度北京市研发费用加计扣除与专项奖励</strong><p>软件企业可重点关注研发费用加计扣除、科技型中小企业创新资金和区级研发投入奖励。</p><div class="answer-grid"><span><b>资金补贴</b>按研发投入强度分档支持</span><span><b>税收优惠</b>研发费用可按规定加计扣除</span><span><b>适用条件</b>需具备研发活动和财务归集材料</span></div></div></div><div class="quick"><button data-question="我们是否符合高新技术企业申报条件？">资格预判</button><button data-question="申报研发创新补贴需要哪些材料？">材料清单</button></div><form class="chat-form" id="chatForm"><textarea name="question" placeholder="输入您关注的政策领域或企业现状"></textarea><button class="btn primary">发送</button></form></main><aside class="card"><span class="kicker">下一步建议</span><a class="suggestion" href="#new" data-page-link="new"><strong>发起资格预判</strong><span>选择政策并创建申报草稿</span></a><a class="suggestion" href="#profile" data-page-link="profile"><strong>完善企业画像</strong><span>补齐经营、研发和资质字段</span></a><button class="suggestion" id="humanHelp"><strong>人工政策专员</strong><span>预约专员协助解读政策</span></button></aside></div>
+        </section>
+
+        <section class="page" data-page="applications">
+          <div class="page-hero"><div><span class="kicker">Applications</span><h1>我的申报列表</h1><p>Manage and track your enterprise policy applications in real-time.</p></div><a class="btn primary" href="#new" data-page-link="new">New Application</a></div>
+          <div class="card"><div class="application-toolbar"><div class="field"><label>搜索申报</label><input id="appSearch" placeholder="输入 Application ID 或 Policy Name"></div><div class="filter"><button class="active" data-status="all">All Statuses</button><button data-status="draft">Draft</button><button data-status="submitted">Submitted</button><button data-status="reviewing">Under Review</button><button data-status="need_supplement">Needs Supplement</button></div></div></div>
+          <div class="card" style="margin-top:20px"><div class="table-head"><span>Application ID</span><span>Policy Name</span><span>Status</span><span>Submission Date</span><span>Actions</span></div><div id="appRows"></div></div><div class="metric-row" style="margin-top:20px"><div class="metric"><span>Active Applications</span><strong>8</strong><p class="muted">当前跟进中的政策申报</p></div><div class="metric"><span>Attention Required</span><strong>1</strong><p class="muted">需要补正或确认的申报</p></div><div class="metric"><span>Approved Funding</span><strong>¥2.4M</strong><p class="muted">资金已进入拨付阶段</p></div><div class="metric"><span>Completion</span><strong>75%</strong><p class="muted">平均申报完成度</p></div></div>
+        </section>
+
+        <section class="page" data-page="new">
+          <div class="page-hero"><div><span class="kicker">New Application</span><h1>新建申报</h1><p>按照五步流程创建政策申报草稿。</p></div><a class="btn ghost" href="#applications" data-page-link="applications">返回列表</a></div>
+          <div class="card"><div class="stepper"><div class="step done"><b>1</b>选择政策</div><div class="step done"><b>2</b>资格预判</div><div class="step done"><b>3</b>填写信息</div><div class="step active"><b>4</b>上传材料</div><div class="step"><b>5</b>确认提交</div></div><div class="new-layout"><aside><span class="kicker">材料清单</span><button class="material-item active"><strong>营业执照副本</strong><span>必填 · 已匹配企业绑定资料</span></button><button class="material-item"><strong>近三年纳税证明</strong><span>必填 · 支持 PDF/JPG/PNG</span></button><button class="material-item"><strong>法人身份证明材料</strong><span>可选 · 用于人工复核</span></button></aside><main class="grid"><div class="field"><label>申报政策</label><select><option>SME Digitalization Grant 2024</option><option>R&D Innovation Credit</option></select></div><label class="upload"><input id="newUpload" type="file"><span class="upload-icon">↑</span><strong>拖拽文件到此处上传</strong><em class="muted">选择文件</em></label><section><div class="section-head"><h2>OCR 识别比对</h2><span class="status warn">发现 2 处差异</span></div><div class="ocr-row"><span>统一社会信用代码</span><strong>91440300MA5EXXXX7Y</strong><em>91440300MA5EXXXX7Y</em><button class="btn mini ghost">已确认</button></div><div class="ocr-row"><span>企业名称</span><strong>创领科技有限公司</strong><em>创领科技有限公司</em><button class="btn mini ghost">已确认</button></div><div class="ocr-row"><span>法定代表人</span><strong>李明</strong><em>李敏</em><button class="btn mini ghost">更正</button></div></section><div class="actions"><a class="btn ghost" href="#applications" data-page-link="applications">保存草稿</a><a class="btn primary" href="#detail" data-page-link="detail">提交申请</a></div></main></div></div>
+        </section>
+
+        <section class="page" data-page="detail">
+          <div class="page-hero"><div><span class="kicker">Application Detail</span><h1>2024 High-Tech Enterprise Grant</h1><p>Application ID: CP-2024-88921</p></div><div class="hero-page-actions"><a class="btn ghost" href="#applications" data-page-link="applications">Back to List</a><button class="btn ghost">Withdraw</button><a class="btn primary" href="#supplement" data-page-link="supplement">Go to Supplement</a></div></div>
+          <div class="detail-layout"><main class="card"><div class="stepper" style="grid-template-columns:repeat(4,1fr)"><div class="step done"><b>1</b>Draft</div><div class="step done"><b>2</b>Submitted</div><div class="step active"><b>3</b>Reviewing</div><div class="step"><b>4</b>Final Decision</div></div><div class="audit"><div><span class="kicker">Audit Opinion: Needs Supplement</span><h2>需要补正材料</h2><p>缺少 Q3 2023 研发费用文件官方盖章，请在截止日前重新上传补正材料。</p></div><b>Deadline: Oct 18, 2024</b></div><h2>Basic Information</h2><div class="info-grid"><div><span>企业名称</span><strong>创领科技有限公司</strong></div><div><span>提交时间</span><strong>2024-09-18</strong></div><div><span>申报编号</span><strong>CP-2024-88921</strong></div><div><span>当前阶段</span><strong>需补正</strong></div></div><h2>Submitted Materials</h2><div class="material-row"><strong>Business_License.pdf</strong><span class="status blue">verified</span><a>download</a></div><div class="material-row"><strong>R&D_Expense_Q1_Q2.pdf</strong><span class="status blue">verified</span><a>download</a></div></main><aside class="grid"><section class="card"><span class="kicker">Policy Info</span><h2>2024 High-Tech Enterprise Grant</h2><p class="muted">Expected Grant Amount</p><div class="grant">¥200,000</div><strong>Completion Progress 75%</strong><div class="progress"><span style="width:75%"></span></div></section><section class="card"><span class="kicker">Need Help?</span><h2>Online Consultation</h2><p class="muted">政策专员可协助确认材料补正范围和截止时间。</p><a class="btn primary" href="#qa" data-page-link="qa">Online Consultation</a></section></aside></div>
+        </section>
+
+        <section class="page" data-page="supplement">
+          <div class="page-hero"><div><span class="kicker">Action Required</span><h1>补正处理</h1><p>Supplement Processing for Application #CP-88421</p></div><div class="hero-page-actions"><a class="btn ghost" href="#detail" data-page-link="detail">返回详情</a><a class="btn primary" href="#applications" data-page-link="applications">Applications</a></div></div>
+          <div class="supplement-layout"><main class="grid"><section class="supplement-alert"><div><span class="kicker">Audit Feedback（审核反馈）</span><h2>请按审核意见完成补正</h2><p>缺少 Business Sustainability Report 2023 财年官方盖章；Certificate of Operation 图片过于模糊，请在 5 个工作日内重新上传。</p></div><b>5 个工作日内</b></section><section class="card"><div class="section-head"><h2>Missing or Incorrect Items</h2><span>待补正材料</span></div><div class="grid two"><div class="supplement-item"><strong>Business Sustainability Report</strong><span>Missing Seal · 请上传带企业公章的 2023 财年可持续经营报告。</span></div><div class="supplement-item"><strong>Certificate of Operation</strong><span>Low Resolution · 请上传清晰扫描件。</span></div></div></section><section class="card"><h2>Original Application Preview</h2><div class="info-grid"><div><span>Application ID</span><strong>CP-88421</strong></div><div><span>Policy Name</span><strong>2024 High-Tech Enterprise Grant</strong></div><div><span>Current Status</span><strong>Needs Supplement</strong></div><div><span>Applicant</span><strong>创领科技有限公司</strong></div></div></section></main><aside class="card"><span class="kicker">Supplement Remarks</span><h2>Process Update</h2><label class="upload"><input id="suppUpload" type="file"><span class="upload-icon">↑</span><strong>上传补正材料</strong><em class="muted">支持 PDF / JPG / PNG</em></label><div class="field"><label>Notes to Auditor</label><input placeholder="请输入补正说明"></div><button class="btn primary" id="submitSupplement" style="width:100%">Submit Supplement</button><a class="btn ghost" href="#detail" data-page-link="detail" style="width:100%;margin-top:10px">Save Progress</a></aside></div>
+        </section>
+      </main>
+    </section>
+
+    <div class="modal" id="modal"><div class="modal-card"><strong>Supplement Submitted</strong><p>Your corrections have been successfully uploaded and sent for re-audit.</p><a class="btn primary" href="#dashboard" data-page-link="dashboard">Return to Dashboard</a><button class="btn ghost" id="closeModal">关闭</button></div></div>
+
+    <script>
+      const appData = [
+        ['demo-application-88421', 'SME Digitalization Grant 2024', 'need_supplement', '2024-10-12'],
+        ['demo-application-88418', 'Green Energy Tax Rebate', 'reviewing', '2024-09-26'],
+        ['demo-application-88405', 'Talent Retention Subsidy', 'submitted', '2024-09-18'],
+        ['demo-application-88392', 'R&D Innovation Credit', 'draft', '2024-09-06'],
+        ['demo-application-88320', 'Export Expansion Support', 'approved', '2024-08-20']
+      ];
+      const statusText = { need_supplement: 'Needs Supplement', reviewing: 'Under Review', submitted: 'Submitted', draft: 'Draft', approved: 'Approved' };
+      function openPrototype(page = 'dashboard') {
+        document.querySelector('#landing').style.display = 'none';
+        document.querySelector('#prototype').classList.add('active');
+        showPage(page);
+      }
+      function showPage(page) {
+        document.querySelectorAll('.page').forEach(node => node.classList.toggle('active', node.dataset.page === page));
+        document.querySelectorAll('[data-page-link]').forEach(node => node.classList.toggle('active', node.dataset.pageLink === page));
+        history.replaceState(null, '', '#' + page);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      function renderRows() {
+        const body = document.querySelector('#appRows');
+        if (!body) return;
+        body.innerHTML = appData.map(([id, title, status, date]) => `<article class="app-row" data-status="${status}" data-keywords="${(id + ' ' + title).toLowerCase()}"><a href="#detail" data-page-link="detail">${id}</a><strong>${title}</strong><span class="status ${status === 'need_supplement' ? 'warn' : status}">${statusText[status]}</span><span>${date}</span><div class="row-actions">${status === 'need_supplement' ? '<a class="btn mini primary" href="#supplement" data-page-link="supplement">Resolve</a>' : ''}<a class="btn mini ghost" href="#detail" data-page-link="detail">查看详情</a></div></article>`).join('');
+      }
+      document.addEventListener('click', event => {
+        const open = event.target.closest('[data-open-prototype]');
+        if (open) { openPrototype('dashboard'); return; }
+        const pageLink = event.target.closest('[data-page-link]');
+        if (pageLink) { event.preventDefault(); openPrototype(pageLink.dataset.pageLink); return; }
+      });
+      document.querySelectorAll('input[type="file"]').forEach(input => {
+        input.addEventListener('change', () => {
+          const box = input.closest('.upload');
+          const name = input.files?.[0]?.name || '文件已选择';
+          const strong = box?.querySelector('strong');
+          if (strong) strong.textContent = name;
+          if (input.id === 'bindUpload') document.querySelector('#bindPreview').style.display = 'block';
+        });
+      });
+      document.querySelector('#bindSubmit')?.addEventListener('click', event => {
+        event.currentTarget.textContent = '提交成功';
+        setTimeout(() => showPage('dashboard'), 700);
+      });
+      document.querySelector('#saveProfile')?.addEventListener('click', event => {
+        event.currentTarget.textContent = '已保存';
+        setTimeout(() => event.currentTarget.textContent = '保存画像', 1200);
+      });
+      document.querySelector('#addField')?.addEventListener('click', () => {
+        document.querySelector('#customFields').insertAdjacentHTML('beforeend', '<div class="field"><label>新增字段</label><input placeholder="请输入字段名称"></div><div class="field"><label>字段内容</label><input placeholder="请输入字段内容"></div>');
+      });
+      document.querySelectorAll('.material-item').forEach(item => item.addEventListener('click', () => {
+        document.querySelectorAll('.material-item').forEach(node => node.classList.remove('active'));
+        item.classList.add('active');
+      }));
+      const thread = document.querySelector('#thread');
+      function ask(question) {
+        if (!question.trim()) return;
+        thread.insertAdjacentHTML('beforeend', `<div class="question">${question}</div><div class="answer"><strong>已找到政策依据</strong><p>根据当前企业画像，建议优先申报研发费用加计扣除与专项奖励，并补齐研发投入、专利和纳税证明材料。</p><small>引用：《北京市促进科技创新若干措施》</small></div>`);
+        thread.scrollTop = thread.scrollHeight;
+      }
+      document.querySelector('#chatForm')?.addEventListener('submit', event => {
+        event.preventDefault();
+        ask(event.currentTarget.question.value);
+        event.currentTarget.question.value = '';
+      });
+      document.querySelectorAll('[data-question]').forEach(button => button.addEventListener('click', () => ask(button.dataset.question || button.textContent.trim())));
+      document.querySelector('#newChat')?.addEventListener('click', () => thread.innerHTML = '<div class="answer"><strong>智能助手</strong><p>新会话已开启，请输入您关注的政策领域或企业现状。</p></div>');
+      document.querySelector('#humanHelp')?.addEventListener('click', () => ask('请帮我预约人工政策专员'));
+      document.querySelectorAll('.filter button').forEach(button => button.addEventListener('click', () => {
+        document.querySelectorAll('.filter button').forEach(node => node.classList.remove('active'));
+        button.classList.add('active');
+        filterRows();
+      }));
+      document.querySelector('#appSearch')?.addEventListener('input', filterRows);
+      function filterRows() {
+        const active = document.querySelector('.filter button.active')?.dataset.status || 'all';
+        const keyword = (document.querySelector('#appSearch')?.value || '').toLowerCase();
+        document.querySelectorAll('#appRows .app-row').forEach(row => {
+          const okStatus = active === 'all' || row.dataset.status === active;
+          const okKeyword = !keyword || row.dataset.keywords.includes(keyword);
+          row.style.display = okStatus && okKeyword ? 'grid' : 'none';
+        });
+      }
+      document.querySelector('#submitSupplement')?.addEventListener('click', () => document.querySelector('#modal').classList.add('active'));
+      document.querySelector('#closeModal')?.addEventListener('click', () => document.querySelector('#modal').classList.remove('active'));
+      renderRows();
+      if (location.hash && location.hash !== '#about' && location.hash !== '#prototype') openPrototype(location.hash.slice(1));
+    </script>
+  </body>
+</html>

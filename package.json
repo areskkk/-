@@ -1,0 +1,31 @@
+{
+  "name": "jiazhubao",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/api",
+    "apps/web",
+    "packages/shared"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w @jiazhubao/api",
+    "dev:api": "npm run dev -w @jiazhubao/api",
+    "dev:worker": "npm run dev:worker -w @jiazhubao/api",
+    "build": "npm run build -w @jiazhubao/api && npm run build -w @jiazhubao/web && npm run build -w @jiazhubao/shared",
+    "build:api": "npm run build -w @jiazhubao/api",
+    "build:web": "npm run build -w @jiazhubao/web",
+    "start": "npm run start -w @jiazhubao/api",
+    "start:worker": "npm run start:worker -w @jiazhubao/api",
+    "migrate": "npm run migrate -w @jiazhubao/api",
+    "smoke:llm:bailian": "npm run smoke:llm:bailian -w @jiazhubao/api",
+    "llm:bailian-smoke": "npm run llm:bailian-smoke -w @jiazhubao/api",
+    "eval:agent-core": "npm run eval:agent-core -w @jiazhubao/api",
+    "llm:agent-core-eval": "npm run llm:agent-core-eval -w @jiazhubao/api",
+    "ops:preprod-agent-runtime-check": "npm run ops:preprod-agent-runtime-check -w @jiazhubao/api",
+    "test": "npm run test -w @jiazhubao/api",
+    "test:rag-heavy": "npm run test:rag-heavy -w @jiazhubao/api",
+    "test:integration": "npm run test:integration -w @jiazhubao/api",
+    "test:watch": "npm run test:watch -w @jiazhubao/api"
+  }
+}

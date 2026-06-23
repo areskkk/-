@@ -1,0 +1,40 @@
+{
+  "name": "@jiazhubao/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/main.ts",
+    "dev:worker": "tsx src/agent-worker.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/src/main.js",
+    "start:worker": "node dist/src/agent-worker.js",
+    "migrate": "tsx src/db/migrate.ts",
+    "smoke:llm:bailian": "tsx ../../scripts/llm/bailian-smoke.ts",
+    "llm:bailian-smoke": "tsx ../../scripts/llm/bailian-smoke.ts",
+    "eval:agent-core": "tsx ../../scripts/llm/agent-core-eval.ts",
+    "llm:agent-core-eval": "tsx ../../scripts/llm/agent-core-eval.ts",
+    "ops:preprod-agent-runtime-check": "tsx ../../scripts/ops/preprod-agent-runtime-check.ts",
+    "test": "vitest run --maxWorkers=1",
+    "test:rag-heavy": "vitest run --maxWorkers=1 test/batch10.integration.test.ts test/batch11b.integration.test.ts test/rag.eval.test.ts",
+    "test:integration": "vitest run test/batch2.integration.test.ts test/batch3.integration.test.ts test/batch4.integration.test.ts",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@fastify/jwt": "^9.1.0",
+    "@fastify/multipart": "^10.0.0",
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.4.7",
+    "fastify": "^5.2.1",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "@bytebase/dbhub": "^0.21.2",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/node": "^22.10.5",
+    "@types/pg": "^8.11.10",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}

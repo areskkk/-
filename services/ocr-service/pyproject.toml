@@ -1,0 +1,18 @@
+[project]
+name = "nankang-zhuqibao-ocr-service"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115.0,<1.0.0",
+  "uvicorn>=0.30.0,<1.0.0",
+  "python-dotenv>=1.0.0,<2.0.0",
+]
+
+[project.optional-dependencies]
+rapidocr = [
+  "rapidocr-onnxruntime>=1.4.0,<2.0.0",
+]
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
