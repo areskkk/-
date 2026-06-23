@@ -175,7 +175,7 @@
     </style>
   </head>
   <body>
-    <section id="landing" class="landing">
+    <section id="landing" class="landing" style="display: none;">
       <header class="landing-nav">
         <a class="brand" href="#about"><span>家助宝 · CivicPortal</span><small>Enterprise Prototype</small></a>
         <nav class="landing-links" aria-label="首页导航">
@@ -208,7 +208,7 @@
       </main>
     </section>
 
-    <section id="prototype" class="app" aria-label="企业端原型">
+    <section id="prototype" class="app active" aria-label="企业端原型">
       <aside class="sidebar">
         <div>
           <a class="brand" href="#dashboard" data-page-link="dashboard"><span>CivicPortal</span><small>Enterprise Console</small></a>
@@ -375,7 +375,11 @@
       document.querySelector('#submitSupplement')?.addEventListener('click', () => document.querySelector('#modal').classList.add('active'));
       document.querySelector('#closeModal')?.addEventListener('click', () => document.querySelector('#modal').classList.remove('active'));
       renderRows();
-      if (location.hash && location.hash !== '#about' && location.hash !== '#prototype') openPrototype(location.hash.slice(1));
+      if (location.hash && location.hash !== '#about' && location.hash !== '#prototype') {
+        openPrototype(location.hash.slice(1));
+      } else {
+        openPrototype('dashboard');
+      }
     </script>
   </body>
 </html>
